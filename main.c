@@ -30,6 +30,8 @@ BOOL ProcessModule(MODULE_INFO sctModuleInfo) {
 
 	if (psctHookList != NULL) {
 
+		// Call FindFunctionsFromRVAs with pMappedAddress to only parse the mapped module's headers, and not the loaded one's
+		// This to avoid any PAGE_GUARD on the loaded module headers' memory page
 		if (!FindFunctionsFromRVAs(pMappedAddress, bIsManuallyMapped, psctHookList)) {
 
 			wprintf(L"[-] Could not find functions for RVAs in module %ws\n", sctModuleInfo.wszModuleName);

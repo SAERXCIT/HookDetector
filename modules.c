@@ -187,13 +187,13 @@ BOOL FindFunctionsFromRVAs(
 }
 
 DWORD RvaToRaw(
-	PBYTE pMappedModule,
+	PBYTE pModuleAddress,
 	DWORD dwRva
 ) {
 
 	DWORD dwSectionRawAddr = 0;
 
-	PIMAGE_NT_HEADERS pImgNtHdrs = (PIMAGE_NT_HEADERS)((PBYTE)pMappedModule + ((PIMAGE_DOS_HEADER)pMappedModule)->e_lfanew);
+	PIMAGE_NT_HEADERS pImgNtHdrs = (PIMAGE_NT_HEADERS)(pModuleAddress + ((PIMAGE_DOS_HEADER)pModuleAddress)->e_lfanew);
 	if (pImgNtHdrs->Signature != IMAGE_NT_SIGNATURE) {
 		return FALSE;
 	}

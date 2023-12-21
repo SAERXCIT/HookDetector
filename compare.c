@@ -18,8 +18,8 @@ BOOL ProcessModuleComparison(
 	DWORD dwMappedTextSize = 0;
 	
 
-	if (!GetModuleSectionHeader(pLoadedModuleAddress, ".text", &pImgSecHdr)) {
-		wprintf(L"[-] Could not get .text section address for loaded module\n");
+	if (!GetModuleSectionHeader(pMappedModuleAddress, ".text", &pImgSecHdr)) {
+		wprintf(L"[-] Could not get .text section address for mapped module\n");
 		return FALSE;
 	}
 
@@ -28,11 +28,6 @@ BOOL ProcessModuleComparison(
 
 	//wprintf(L"Loaded module:\n\tBase address: %p\n\t.text address: %p\n\t.text size: %x\n\n", pLoadedModuleAddress, pLoadedTextAddress, dwLoadedTextSize);
 
-
-	if (!GetModuleSectionHeader(pMappedModuleAddress, ".text", &pImgSecHdr)) {
-		wprintf(L"[-] Could not get .text section address for mapped module\n");
-		return FALSE;
-	}
 
 	if (bIsManuallyMapped) {
 		pMappedTextAddress = pMappedModuleAddress + pImgSecHdr->PointerToRawData;
