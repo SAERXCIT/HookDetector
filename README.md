@@ -27,6 +27,7 @@ DLL search order is not implemented. The analysis will only be performed on modu
 ## TODO
 
 * [ ] Stuff IAT with additional unused DLLs to bait more hooking targets.
+* [ ] Only parse headers of the mapped module instead of the loaded one, to not trigger any `PAGE_GUARD` on the header page (e.g. EAF).
 
 ## Example output
 
