@@ -46,7 +46,8 @@ DWORD RvaToRaw(
 
 BOOL MapFromKnownDLLs(
 	LPWSTR wszModuleName,
-	PBYTE* ppModuleData
+	PBYTE* ppModuleData,
+	PHANDLE phFileToClose
 );
 BOOL MapFromFileSystem(
 	LPWSTR wszModuleName,

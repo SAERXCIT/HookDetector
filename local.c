@@ -2,7 +2,8 @@
 
 BOOL MapFromKnownDLLs(
 	LPWSTR wszModuleName, 
-	PBYTE* ppModuleData
+	PBYTE* ppModuleData,
+	PHANDLE phFileToClose
 ) {
 
 	NTSTATUS STATUS = 0;
@@ -37,9 +38,12 @@ BOOL MapFromKnownDLLs(
 	if (*ppModuleData == NULL) {
 
 		wprintf(L"[-] MapViewOfFile failed for KnownDLL module %ws: %d\n", wszModuleName, GetLastError());
+		CloseHandle(hSection);
 		return FALSE;
 
 	}
+
+	*phFileToClose = hSection;
 
 	return TRUE;
 
@@ -111,7 +115,7 @@ BOOL MapTargetModule(
 
 	BOOL bSTATE = TRUE;
 
-	if (MapFromKnownDLLs(wszModuleName, ppMappedAddress)) {
+	if (MapFromKnownDLLs(wszModuleName, ppMappedAddress, phFileToClose)) {
 		*pbIsManuallyMapped = FALSE;
 		return TRUE;
 	}
