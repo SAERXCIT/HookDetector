@@ -23,7 +23,7 @@ BOOL MapFromKnownDLLs(
 	wcscat_s(wszKnownDllName, MAX_PATH, wszModuleName);
 
 	usKnownDllName.Buffer = wszKnownDllName;
-	usKnownDllName.Length = wcsnlen_s(wszKnownDllName, MAX_PATH) * sizeof(WCHAR);
+	usKnownDllName.Length = (USHORT)(wcsnlen_s(wszKnownDllName, MAX_PATH) * sizeof(WCHAR));
 	usKnownDllName.MaximumLength = usKnownDllName.Length + sizeof(WCHAR);
 
 	InitializeObjectAttributes(&oaKnownDll, &usKnownDllName, OBJ_CASE_INSENSITIVE, NULL, NULL);
@@ -37,7 +37,7 @@ BOOL MapFromKnownDLLs(
 	*ppModuleData = MapViewOfFile(hSection, FILE_MAP_READ, 0, 0, 0);
 	if (*ppModuleData == NULL) {
 
-		wprintf(L"[-] MapViewOfFile failed for KnownDLL module %ws: %d\n", wszModuleName, GetLastError());
+		wprintf(L"[-] MapViewOfFile failed for KnownDLL module %ws: %lu\n", wszModuleName, GetLastError());
 		CloseHandle(hSection);
 		return FALSE;
 
@@ -79,13 +79,13 @@ BOOL MapFromFileSystem(
 
 	hFileMapping = CreateFileMappingW(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
 	if (hFileMapping == NULL) {
-		wprintf(L"[-] Cannot create mapping to file %ws: %d\n", wszModulePath, GetLastError());
+		wprintf(L"[-] Cannot create mapping to file %ws: %lu\n", wszModulePath, GetLastError());
 		bSTATE = FALSE; goto _Cleanup;
 	}
 
 	*ppModuleData = MapViewOfFile(hFileMapping, FILE_MAP_READ, 0, 0, 0);
 	if (*ppModuleData == NULL) {
-		wprintf(L"[-] MapViewOfFile failed for KnownDLL module %ws: %d\n", wszModuleName, GetLastError());
+		wprintf(L"[-] MapViewOfFile failed for KnownDLL module %ws: %lu\n", wszModuleName, GetLastError());
 		bSTATE = FALSE; goto _Cleanup;
 	}
 
@@ -112,8 +112,6 @@ BOOL MapTargetModule(
 	PHANDLE phFileToClose,
 	PHANDLE phFileMappingToClose
 ) {
-
-	BOOL bSTATE = TRUE;
 
 	if (MapFromKnownDLLs(wszModuleName, ppMappedAddress, phFileToClose)) {
 		*pbIsManuallyMapped = FALSE;

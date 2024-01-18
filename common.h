@@ -77,6 +77,10 @@ BOOL CompareBytes(
 	PHOOK_LIST* ppsctHookList
 );
 
+VOID StuffIAT(
+	void
+);
+
 
 typedef NTSTATUS(NTAPI* fnNtOpenSection)(
 	_Out_ PHANDLE SectionHandle,

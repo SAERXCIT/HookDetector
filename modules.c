@@ -5,7 +5,6 @@ BOOL GetLoadedModuleList(
 	PMODULE_LIST* ppsctModuleList
 ) {
 
-	BOOL bSTATE = TRUE;
 	PPEB pPEB = NULL;
 	PLDR_DATA_TABLE_ENTRY pDte = NULL;
 	DWORD dwListSize = 0;
@@ -53,7 +52,7 @@ BOOL GetLoadedModuleList(
 
 			if (pTmp == NULL) {
 
-				printf("[-] Error allocating memory for module list: %d\n", GetLastError());
+				printf("[-] Error allocating memory for module list: %lu\n", GetLastError());
 
 				if (*ppsctModuleList != NULL) {
 					HeapFree(GetProcessHeap(), 0, *ppsctModuleList);
@@ -125,8 +124,6 @@ BOOL FindFunctionsFromRVAs(
 	WORD wLoop = 0;
 	WORD wCurrentFunctionOrdinal = 0;
 	DWORD dwCurrentFunctionRVA = 0;
-	DWORD dwBestCandidateRVA = 0;
-	LPSTR szBestCandidateName = NULL;
 	PIMAGE_EXPORT_DIRECTORY pImgExportDir = NULL;
 	PWORD pwArrayOfOrdinals = NULL;
 	PDWORD pdwArrayOfNames = NULL;
@@ -190,8 +187,6 @@ DWORD RvaToRaw(
 	PBYTE pModuleAddress,
 	DWORD dwRva
 ) {
-
-	DWORD dwSectionRawAddr = 0;
 
 	PIMAGE_NT_HEADERS pImgNtHdrs = (PIMAGE_NT_HEADERS)(pModuleAddress + ((PIMAGE_DOS_HEADER)pModuleAddress)->e_lfanew);
 	if (pImgNtHdrs->Signature != IMAGE_NT_SIGNATURE) {

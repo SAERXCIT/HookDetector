@@ -7,8 +7,6 @@ BOOL ProcessModuleComparison(
 	PHOOK_LIST* ppsctHookList
 ) {
 
-	BOOL bSTATE = TRUE;
-
 	PIMAGE_SECTION_HEADER pImgSecHdr = NULL;
 
 	PBYTE pLoadedTextAddress = NULL;
@@ -80,7 +78,7 @@ BOOL CompareBytes(
 
 			if (pTmp == NULL) {
 
-				printf("[-] Error allocating memory for diff list: %d\n", GetLastError());
+				printf("[-] Error allocating memory for diff list: %lu\n", GetLastError());
 
 				if (*ppsctHookList != NULL) {
 					HeapFree(GetProcessHeap(), 0, *ppsctHookList);
@@ -89,7 +87,7 @@ BOOL CompareBytes(
 
 			}
 
-			pTmp->pHookList[pTmp->wCount].dwDifferenceRVA = (PBYTE)(&pLoadedText[dwLoop]) - pLoadedBase;
+			pTmp->pHookList[pTmp->wCount].dwDifferenceRVA = (DWORD)((PBYTE)(&pLoadedText[dwLoop]) - pLoadedBase);
 			pTmp->wCount++;
 			*ppsctHookList = pTmp;
 			pTmp = NULL;

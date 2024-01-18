@@ -44,11 +44,11 @@ BOOL ProcessModule(MODULE_INFO sctModuleInfo) {
 		for (wLoop = 0; wLoop < psctHookList->wCount; wLoop++) {
 
 			if (psctHookList->pHookList[wLoop].szBestCandidateName != NULL) {
-				printf("\t[*] Hook found at RVA 0x%x in function %s (at RVA 0x%x)\n", psctHookList->pHookList[wLoop].dwDifferenceRVA,
+				printf("\t[*] Hook found at RVA 0x%lx in function %s (at RVA 0x%lx)\n", psctHookList->pHookList[wLoop].dwDifferenceRVA,
 					   psctHookList->pHookList[wLoop].szBestCandidateName, psctHookList->pHookList[wLoop].dwBestCandidateRVA);
 			}
 			else {
-				printf("\t[*] Hook found at RVA 0x%x in unknown function\n", psctHookList->pHookList[wLoop].dwDifferenceRVA);
+				printf("\t[*] Hook found at RVA 0x%lx in unknown function\n", psctHookList->pHookList[wLoop].dwDifferenceRVA);
 			}
 
 		}
@@ -69,10 +69,14 @@ _EndOfFunc:
 
 }
 
-int wmain(int argc, wchar_t** argv) {
+int wmain(
+	void
+) {
 
 	PMODULE_LIST psctModuleList = NULL;
 	WORD wLoop = 0;
+
+	StuffIAT();
 
 	wprintf(L"[*] Sleeping for 2 seconds to let all initialization and hooking happen...\n");
 	Sleep(2000);
