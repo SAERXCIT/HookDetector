@@ -151,8 +151,9 @@ BOOL FindFunctionsFromRVAs(
 
 	}
 
+
 	// For each function in the module's export directory
-	for (dwLoop = 0; dwLoop < pImgExportDir->NumberOfFunctions; dwLoop++) {
+	for (dwLoop = 0; dwLoop < pImgExportDir->NumberOfNames; dwLoop++) {
 
 		wCurrentFunctionOrdinal = pwArrayOfOrdinals[dwLoop];
 		dwCurrentFunctionRVA = pdwArrayOfRVAs[wCurrentFunctionOrdinal];

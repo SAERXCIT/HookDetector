@@ -7,6 +7,8 @@
 #define PSAPI_VERSION 1
 #include <psapi.h>
 #include <winsock.h>
+#include <winhttp.h>
+#include <wininet.h>
 
 #pragma comment(lib, "Secur32.lib")
 #pragma comment(lib, "shell32.lib")
@@ -14,6 +16,8 @@
 #pragma comment(lib, "crypt32.lib")
 #pragma comment(lib, "psapi.lib")
 #pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib, "wininet.lib")
+#pragma comment(lib, "winhttp.lib")
 
 VOID StuffIAT(
 	void
@@ -31,6 +35,8 @@ VOID StuffIAT(
 		CryptMemAlloc(0);						// crypt32.dll
 		GetPerformanceInfo(NULL, 0);			// psapi.dll
 		WSAGetLastError();		// ws2_32.dll
+		WinHttpCheckPlatform();	// winhttp.h
+		InternetCloseHandle(NULL);	//wininet.h
 
 	}
 
